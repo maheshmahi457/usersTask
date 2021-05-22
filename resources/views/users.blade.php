@@ -15,6 +15,7 @@
     body {
         font-family: 'Roboto';
         line-height: 1.58;
+        background-color: lightgrey;
     }
     .container {
         margin: 70px auto;
@@ -22,8 +23,24 @@
     #popup1 {
         display: none;
     }
+    table td,th{
+        border: 1px solid black;
+        text-align: center;
+        padding: 1%
+    }
+    th{
+        font-size: 20px;
+        background-color: lightblue;
+    }
+    td{
+        background-color: lightcyan;
+    }
     table{
         width:100%
+    }
+    #addNew{
+        float: right;
+        margin-bottom: 5%;
     }
 </style>
 
@@ -41,7 +58,7 @@
                 });
             </script>
             <div>
-                <p>User Records</p>
+                <h2>User Records</h2>
                 <a id="addNew" class="demo-2 btn btn-primary">Add New</a>
             </div>
             <div id="popup1">
@@ -73,7 +90,7 @@
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
             </div>
-            <table>
+            <table style="border: 1px sold black;border-collapse:collapse">
                 <thead>
                     <tr>
                         <th>Avatar</th>
@@ -87,21 +104,28 @@
                     @foreach ($usersList as $user)
                     <tr>
                         <td>
-                            <img src="{{public_path($user->file_path)}}">
+                            <img  src="storage\app\public\images\Q1MQCmzF1Daa59VfCNJ1DZr8lRxiuCmCxdFvaYBd.png" width="auto">
                         </td>
                         <td>{{$user->full_name}}</td>
                         <td>{{$user->email}}</td>
                         @if ($user->leaving_date == null)
-                            @if ($user->is_working)
-                            <td><?php 
-                                    $dateDiff = date_diff(date_create(now()),date_create($user->joining_date));
-                                    echo $dateDiff->y . ' Years ' . $dateDiff->m . ' months ' . $dateDiff->d . ' days';
-                                ?></td>
-                            @endif
+                            <!-- @if ($user->is_working) -->
+                            <td>
+                                <?php
+                                $dateDiff = date_diff(date_create(now()), date_create($user->joining_date));
+                                echo $dateDiff->y . ' Years ' . $dateDiff->m . ' months ' . $dateDiff->d . ' days';
+                                ?>
+                            </td>
+                            <!-- @endif -->
                         @else
-                        <td>{{ $user->leaving_date }}</td>
+                        <td>
+                            <?php
+                            $dateDiff = date_diff(date_create($user->leaving_date), date_create($user->joining_date));
+                            echo $dateDiff->y . ' Years ' . $dateDiff->m . ' months ' . $dateDiff->d . ' days';
+                            ?>
+                        </td>
                         @endif
-                        <td><a href="deleteUser/{{$user->id}}" >Remove</a>  </td>
+                        <td><a href="deleteUser/{{$user->id}}">Remove</a> </td>
                     </tr>
                     @endforeach
                 </tbody>
@@ -111,11 +135,21 @@
                 <strong>Whoops!</strong> There were some problems with your input.
                 <ul>
                     @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
+                    <li>{{ $error }}</li>
                     @endforeach
                 </ul>
             </div>
-        @endif
+            @endif
+            @if (session('failure'))
+                <div class="alert alert-danger">
+                    {{ session('failure') }}
+                </div>
+            @endif
+            @if (session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+            @endif
 </body>
 
 </html>

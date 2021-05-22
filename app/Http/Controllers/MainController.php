@@ -15,10 +15,16 @@ class MainController extends Controller
     public function addUser(Request $request)
     {
         $request->validate([
-            'email' => 'required',
+            'email' => 'required|unique:users,email',
             'fullName' => 'required|max:255|min:2',
             'fileName' => 'required|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'joiningDate' => 'required|before:today',
         ]);
+        if($request->leavingDate and $request->isWorking)
+        {
+            return back()
+                    ->with('failure','choose either leaving date or still working field, but not both');
+        }
         $path = $request->file('fileName')->store('images');
         $data = [
             'email' => $request->email,
@@ -31,10 +37,10 @@ class MainController extends Controller
         $return = User::create($data);
         if($return)
             return back()
-                ->with('success','You have Added User.');
+                ->with('success','User Added Successfully.');
         else{
             return back()
-                ->with('failure','Failed to add User');
+                ->with('failure','Failed to Add User');
         }
     }
 
@@ -42,10 +48,10 @@ class MainController extends Controller
         $return = User::find($request->id)->delete();
         if($return)
             return back()
-                ->with('success','Deleted user Successfully');
+                ->with('success','User Deleted Successfully.');
         else{
             return back()
-                ->with('failure','Failed to delete User');
+                ->with('failure','Failed to Delete User');
         }
     }
 }

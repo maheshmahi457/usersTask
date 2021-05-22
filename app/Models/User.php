@@ -6,7 +6,6 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\Date;
 
 class User extends Authenticatable
 {
@@ -27,14 +26,11 @@ class User extends Authenticatable
     ];
 
 
-    public function getFulltNameAttribute($value)
+    public function getFullNameAttribute($value)
     {
         return ucfirst($value);
     }
 
-    public function getLeavingDateAttribute($value){
-        
-    }
     /**
      * The attributes that should be hidden for arrays.
      *
@@ -50,8 +46,4 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $casts = [
-        'joining_date' => 'datetime',
-        'leaving_date' => 'datetime'
-    ];
 }
