@@ -97,6 +97,16 @@
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
         </div>
+        <?php 
+            $path = storage_path('app\images') .'\alt_image.png';
+            $pic = '';
+            if(file_exists($path)){
+                $type = pathinfo($path, PATHINFO_EXTENSION);
+                $data = file_get_contents($path);
+                $pic = 'data:image/' . $type . ';base64,' . base64_encode($data);
+            }
+            
+        ?>
         <table style="border: 1px sold black;border-collapse:collapse">
             <thead>
                 <tr>
@@ -109,9 +119,17 @@
             </thead>
             <tbody>
                 @foreach ($usersList as $user)
+                <?php 
+                    $path = storage_path('app') . '\\' . $user->file_path;
+                    if(file_exists($path)){
+                        $type = pathinfo($path, PATHINFO_EXTENSION);
+                        $data = file_get_contents($path);
+                        $pic = 'data:image/' . $type . ';base64,' . base64_encode($data);
+                    }
+                ?>
                 <tr>
                     <td>
-                        <img src="storage\app\public\images\Q1MQCmzF1Daa59VfCNJ1DZr8lRxiuCmCxdFvaYBd.png" width="auto">
+                        <img src="{{$pic}}" width="10%">
                     </td>
                     <td>{{$user->full_name}}</td>
                     <td>{{$user->email}}</td>

@@ -38,7 +38,7 @@ class MainController extends Controller
         $data = [
             'email' => $request->email,
             'full_name' => $request->fullName,
-            'file_path' => $request->file('fileName')->store('images'),
+            'file_path' => $request->file('fileName')->store(''),
             'joining_date' => $request->joiningDate,
             'leaving_date' => $request->leavingDate,
             'is_working' => boolval($request->isWorking)

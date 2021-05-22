@@ -25,12 +25,12 @@ class User extends Authenticatable
     ];
 
     /**
-     * The attributes that should be return from DB as ucfirst format
+     * The attributes that should be return from DB as ucwords format
      * @var string
      */
     public function getFullNameAttribute($value)
     {
-        return ucfirst($value);
+        return ucwords($value);
     }
 
     /**
