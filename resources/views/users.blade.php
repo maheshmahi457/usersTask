@@ -97,15 +97,14 @@
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
         </div>
-        <?php 
-            $path = storage_path('app\images') .'\alt_image.png';
-            $pic = '';
-            if(file_exists($path)){
-                $type = pathinfo($path, PATHINFO_EXTENSION);
-                $data = file_get_contents($path);
-                $pic = 'data:image/' . $type . ';base64,' . base64_encode($data);
-            }
-            
+        <?php
+        $path = storage_path('app\images') . '\alt_image.png';
+        $pic = '';
+        if (file_exists($path)) {
+            $type = pathinfo($path, PATHINFO_EXTENSION);
+            $data = file_get_contents($path);
+            $pic = 'data:image/' . $type . ';base64,' . base64_encode($data);
+        }
         ?>
         <table style="border: 1px sold black;border-collapse:collapse">
             <thead>
@@ -119,13 +118,13 @@
             </thead>
             <tbody>
                 @foreach ($usersList as $user)
-                <?php 
-                    $path = storage_path('app') . '\\' . $user->file_path;
-                    if(file_exists($path)){
-                        $type = pathinfo($path, PATHINFO_EXTENSION);
-                        $data = file_get_contents($path);
-                        $pic = 'data:image/' . $type . ';base64,' . base64_encode($data);
-                    }
+                <?php
+                $path = storage_path('app') . '\\' . $user->file_path;
+                if (file_exists($path)) {
+                    $type = pathinfo($path, PATHINFO_EXTENSION);
+                    $data = file_get_contents($path);
+                    $pic = 'data:image/' . $type . ';base64,' . base64_encode($data);
+                }
                 ?>
                 <tr>
                     <td>
@@ -135,7 +134,9 @@
                     <td>{{$user->email}}</td>
                     <td>
                         <?php
-                        $dateDiff = $user->leaving_date ? date_diff(date_create($user->leaving_date), date_create($user->joining_date)) : date_diff(date_create(now()), date_create($user->joining_date));
+                        $dateDiff = $user->leaving_date ?
+                            date_diff(date_create($user->leaving_date), date_create($user->joining_date)) :
+                            date_diff(date_create(now()), date_create($user->joining_date));
                         echo $dateDiff->y . ' Years ' . $dateDiff->m . ' months ' . $dateDiff->d . ' days';
                         ?>
                     </td>
