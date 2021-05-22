@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -25,7 +24,10 @@ class User extends Authenticatable
         'is_working',
     ];
 
-
+    /**
+     * The attributes that should be return from DB as ucfirst format
+     * @var string
+     */
     public function getFullNameAttribute($value)
     {
         return ucfirst($value);
@@ -41,9 +43,4 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
 }
